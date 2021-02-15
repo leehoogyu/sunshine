@@ -14,29 +14,33 @@ $(".article1 .slide_group").slick({
     arrows: true, // 좌우화살표 사용여부(생략가능)
     prevArrow: '<button class="prev"><i class="fas fa-angle-left"></i></button>',
     nextArrow: '<button class="next"><i class="fas fa-angle-right"></i></button>',
+    responsive:[{
+        breakpoint:1024,
+        settings:{
+            arrows: false
+        }
+    }]
 })
-
 
 // $('.article1 .playstop').on('click', function(){
 //     var $ibutton = $(this).find('i')
 //     if ( $ibutton.hasClass('fa-pause') ) {
 //         $('.article1 .slide_group').slick('slickPause')
 //         $ibutton.removeClass('fa-pause').addClass('fa-play')
-//     } else{
+//     } else {
 //         $('.article1 .slide_group').slick('slickPlay')
 //         $ibutton.removeClass('fa-play').addClass('fa-pause')
 //     }
 // })
 
-
 var elPlaystop = document.querySelector('.article1 .playstop')
 var ibtn = elPlaystop.childNodes
 elPlaystop.addEventListener('click', function(){
-    if( ibtn[0].classList.contains('fa-pause')){
+    if ( ibtn[0].classList.contains('fa-pause') ) {
         $('.article1 .slide_group').slick('slickPause')
         ibtn[0].classList.remove('fa-pause')
         ibtn[0].classList.add('fa-play')
-    } else{
+    } else {
         $('.article1 .slide_group').slick('slickPlay')
         ibtn[0].classList.remove('fa-play')
         ibtn[0].classList.add('fa-pause')
@@ -44,40 +48,67 @@ elPlaystop.addEventListener('click', function(){
 })
 
 
+
 $('#header .open').on('click', function(){
     // $(this).toggleClass('on')
-    if ($(this).hasClass('on')){
-        $(this).removeClass('on')
-    } else {
+    if ( !$(this).hasClass('on') ) {
         $(this).addClass('on')
+    } else {
+        $(this).removeClass('on')
     }
 
     // $(this).next().toggleClass('on')
-    if (!$(this).next().hasClass('on')){
+    if ( !$(this).next().hasClass('on') ) {
         $(this).next().addClass('on')
     } else {
         $(this).next().removeClass('on')
     }
+
 })
 
 
-
-var ww = $(window).width();
+var ww = window.innerWidth
+// var ww = $(window).width()
 console.log(ww)
 
-if(ww>1024) {
-    $('.nav .depth1 > li').hover(
-        function(){
-            $(this).addClass('on')
-        },
-        function(){
-            $(this).removeClass('on')
-        }
-    )
-} else { 
-    $('.nav .depth1 > li').on('click', function(){
-        $(this).toggleClass('on')
-        $(this).siblings().removeClass('on')
-        
-    })
+var elDept1Li = document.querySelectorAll('.nav .depth1 > li')
+// console.log(elDept1Li.length)
+if ( ww>1024 ) {
+    // $('.nav .depth1 > li').hover(
+    //     function(){ 
+    //         $(this).addClass('on')
+    //     },
+    //     function(){
+    //         $(this).removeClass('on')
+    //     }
+    // )
+    for (var i=0; i<elDept1Li.length; i++) {
+        elDept1Li[i].addEventListener('mouseover', function(){
+            this.classList.add('on')
+        })
+        elDept1Li[i].addEventListener('mouseout', function(){
+            this.classList.remove('on')
+        })
+    }
+} else {
+    // $('.nav .depth1 > li').on('click', function(){
+    //     $(this).toggleClass('on')
+    //     $(this).siblings().removeClass('on')
+    // })
+    for (var i=0; i<elDept1Li.length; i++) { 
+        elDept1Li[i].addEventListener('click', function(){
+            // var k = i;
+            // for (var j=0; j<5; j++) {
+            //     if (k!==j) {
+            //       elDept1Li[j].classList.remove('on')
+            //     }
+            // }
+            if ( !this.classList.contains('on') ) {
+                this.classList.add('on')
+            } else {
+                this.classList.remove('on')
+            }
+            return false
+        })
+    }
 }
